@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html><head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Curriculum Learning for Knowledge Distillation in LMs - Hasan Khan</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Knowledge distillation (KD) is a powerful, well-established model compression technique that can face performance limitations when the capacity difference between student and teacher models is severely mismatched (Cho and Hariharan, 2019), or when multiple teachers cause competing distillation objectives (Du et al., 2020). To address these issues and improve performance in KD for large language modeling, I explore the implementation of two ideas: using curriculum learning during KD, where training data is sorted based on difficulty, and using Selective Reliance during KD, where a student language model selectively leverages teacher distillation loss for data samples deemed difficult by the curriculum." />
+	<meta property="og:image" content=""/>
+	<meta property="og:title" content="Curriculum Learning for Knowledge Distillation in LMs" />
+<meta property="og:description" content="Knowledge distillation (KD) is a powerful, well-established model compression technique that can face performance limitations when the capacity difference between student and teacher models is severely mismatched (Cho and Hariharan, 2019), or when multiple teachers cause competing distillation objectives (Du et al., 2020). To address these issues and improve performance in KD for large language modeling, I explore the implementation of two ideas: using curriculum learning during KD, where training data is sorted based on difficulty, and using Selective Reliance during KD, where a student language model selectively leverages teacher distillation loss for data samples deemed difficult by the curriculum." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://theotherkhan.github.io/projects/kdclsrlm/" /><meta property="article:section" content="projects" />
+<meta property="article:published_time" content="2023-05-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-05-23T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Curriculum Learning for Knowledge Distillation in LMs"/>
+<meta name="twitter:description" content="Knowledge distillation (KD) is a powerful, well-established model compression technique that can face performance limitations when the capacity difference between student and teacher models is severely mismatched (Cho and Hariharan, 2019), or when multiple teachers cause competing distillation objectives (Du et al., 2020). To address these issues and improve performance in KD for large language modeling, I explore the implementation of two ideas: using curriculum learning during KD, where training data is sorted based on difficulty, and using Selective Reliance during KD, where a student language model selectively leverages teacher distillation loss for data samples deemed difficult by the curriculum."/>
+<script src="https://theotherkhan.github.io/js/feather.min.js"></script>
+	
+	
+        <link href="https://theotherkhan.github.io/css/fonts.2c2227b81b1970a03e760aa2e6121cd01f87c88586803cbb282aa224720a765f.css" rel="stylesheet">
+	
+
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="https://theotherkhan.github.io/css/main.ac08a4c9714baa859217f92f051deb58df2938ec352b506df655005dcaf98cc0.css" />
+
+	
+	
+
+	
+	
+	
+	
+</head>
+<body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="https://theotherkhan.github.io/">Hasan Khan</a>
+	</div>
+	<nav>
+		
+		<a href="/">Home</a>
+		
+		<a href="/files/summerresume2023ai.pdf">Resume</a>
+		
+		<a href="/projects">Projects</a>
+		
+		<a href="https://github.com/theotherkhan">Git</a>
+		
+		
+	</nav>
+</header>
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<main>
+	<article>
+		<div class="title">
+			<h1 class="title">Curriculum Learning for Knowledge Distillation in LMs</h1>
+			<div class="meta">Posted on May 23, 2023</div>
+		</div>
+		
+
+		<section class="body">
+			<h2 id="abstract">Abstract</h2>
+<p>Knowledge distillation (KD) is a powerful,
+well-established model compression technique
+that can face performance limitations when the
+capacity difference between student and teacher
+models is severely mismatched (Cho and Hariharan, 2019), or when multiple teachers cause
+competing distillation objectives (Du et al.,
+2020). To address these issues and improve performance in KD for large language modeling, I explore the implementation of two ideas: using curriculum learning during KD, where training data is sorted based on difficulty, and using Selective Reliance during KD, where a student language model selectively leverages teacher distillation loss for data samples deemed difficult by the curriculum. See the full report <a href="/files/KD_CL_SR_for_LMs.pdf">here</a>.</p>
+<h2 id="introduction">Introduction</h2>
+<p>Knowledge Distillation (Hinton et al., 2015) is a
+model compression technique commonly deployed
+in settings where large models are difficult to
+store and run. Vanilla KD comprises of a dual
+model student-teacher modeling framework, where
+a small capacity student model aims to mimic the
+performance of a larger capacity teacher model by
+learning the distribution of the output labels generated from the teacher model trained on the same
+dataset. Specifically, the student model uses a bipartite loss function L_student that incorporates both
+L_kd (the KD loss measured by the KL divergence
+between the softmax of the student output logits
+PS and the softmax of the teacher output logits P_T ,
+scaled by the temperature parameter τ ) and L_ce
+(the standard cross entropy training loss using the
+true labels ytrue). The parameter λ controls the
+weight given to each component loss. The student
+loss and its component losses are defined below:</p>
+<p>$$ L_{ce} = CE(y_{true},P_S) $$
+$$ L_{kd} = \tau^2 KL(P_T,P_S) $$
+$$ L_{student} = (1 - \lambda)L_{ce} + \lambda L_{kd} $$</p>
+<p>The general framework is visualized below:</p>
+<p><img src="/files/kd3.jpg" alt="image info"></p>
+<!-- raw HTML omitted -->
+<p>However, KD has been shown to provide minimal
+to no performance gains for certain tasks, such
+as image recognition on ImageNet (Zagoruyko
+and Komodakis, 2016). Cho and Hariharan note
+that empirical results establishing the generality
+of KD efficacy for various tasks are nonexistent
+(Cho and Hariharan, 2019). They examine the
+reasons behind these failures, noting that large
+differences in student teacher model capacities
+may limit the student model’s ability to minimize
+both training loss and KD loss, forcing the student
+to minimize the KD loss over the train loss. In
+addition to capacity gaps between student and
+teachers, KD frameworks that involve distillation
+from an ensemble of teachers require n-paritite
+loss functions, in which conflict can exists between
+different teacher models, which can adversely
+effect distillation loss (Du et al., 2020).</p>
+<p>From these findings, I propose selective reliance,
+a KD technique for dynamically changing the
+student’s reliance on KD loss, in order to improve
+model accuracy. Selective reliance is implemented
+by updating λ in LStudent at the sample level,
+where λ is determined by the difficulty of the
+sample. Difficulty is defined in the context of
+Curriculum Learning (CL), a training strategy for
+improving model convergence speed and accuracy
+that involves training on easily learnable samples
+before more difficult ones (Bengio et al., 2009).</p>
+<p>Difficulty rankings for samples can be determined
+using the confidence scores generated by either the
+teacher model (teacher-generated curriculum) or
+the student model (student-generated curriculum).
+In the former, the teacher model would also act
+as the difficulty scoring function (Hacohen and
+Weinshall, 2019) for each datapoint in the the student’s curriculum, calculated before the student
+training process. In the latter, the student model
+would generate its own curriculum during student
+training by looking at confidence scores generated
+during previous epochs in training, as described by
+snapshot learning (Zhao et al., 2021). For this experiment, I use the confidence scores generated by
+the student model (student-generated curriculum)
+during training. I hypothesize that relying on the
+teacher model is only in the student’s best interest
+when the sample being evaluated is &ldquo;difficult&rdquo; as
+determined by the curriculum, and that accuracy
+yielded from vanilla knowledge distillation (KD)
+and knowledge distillation with curriculum
+learning (KD-CL) can be improved upon with
+selective reliance (KD-CL-SR) techniques built
+into the distillation framework.</p>
+<p>See the full report <a href="/files/KD_CL_SR_for_LMs.pdf">here</a>.</p>
+
+		</section>
+
+		<div class="post-tags">
+			
+			
+			
+		</div>
+		</article>
+</main>
+<footer>
+  <div style="display:flex"><a class="soc" href="https://github.com/theotherkhan" rel="me" title="GitHub"><i data-feather="github"></i></a>
+    <a class="border"></a><a class="soc" href="https://www.linkedin.com/in/hk4cd/" rel="me" title="LinkedIn"><i data-feather="linkedin"></i></a>
+    <a class="border"></a></div>
+  <div class="footer-info">
+    2023  © Hasan Khan |  Built with <a href="https://gohugo.io">Hugo</a>
+  </div>
+</footer>
+
+
+<script>
+  feather.replace()
+</script></div>
+    </body>
+</html>

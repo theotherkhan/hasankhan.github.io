@@ -3,19 +3,20 @@
 	<head>
 	<meta name="generator" content="Hugo 0.103.0" />
 	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Hasans personal blog | Home </title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Hasan Khan | Home </title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="" />
 	<meta property="og:image" content=""/>
-	<link rel="alternate" type="application/rss+xml" href="https://theotherkhan.github.io/index.xml" title="Hasans personal blog" />
-	<meta property="og:title" content="Hasans personal blog" />
+	<link rel="alternate" type="application/rss+xml" href="https://theotherkhan.github.io/index.xml" title="Hasan Khan" />
+	<meta property="og:title" content="Hasan Khan" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://theotherkhan.github.io/" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Hasans personal blog"/>
+<meta name="twitter:title" content="Hasan Khan"/>
 <meta name="twitter:description" content=""/>
-
+<script src="https://theotherkhan.github.io/js/feather.min.js"></script>
+	
 	
         <link href="https://theotherkhan.github.io/css/fonts.2c2227b81b1970a03e760aa2e6121cd01f87c88586803cbb282aa224720a765f.css" rel="stylesheet">
 	
@@ -36,14 +37,41 @@
 		<div class="content">
 			<header>
 	<div class="main">
-		<a href="https://theotherkhan.github.io/">Hasans personal blog</a>
+		<a href="https://theotherkhan.github.io/">Hasan Khan</a>
 	</div>
 	<nav>
+		
+		<a href="/">Home</a>
+		
+		<a href="/files/summerresume2023ai.pdf">Resume</a>
+		
+		<a href="/projects">Projects</a>
+		
+		<a href="https://github.com/theotherkhan">Git</a>
 		
 		
 	</nav>
 </header>
 
+
+			<div >  
+				
+				<h1 style="font-size: 36px">Hello 🌎</h1>
+
+				My name is <strong>Hasan</strong> - I'm a recent MSCS graduate from <span style="color:purple">NYU Courant</span>, now working in New York City as a Data Scientist.
+				I'm interested in the interesection of AI and language, with a particular focus on curriculum learning and 
+				knowledge distillation in large language models (see projects). Previosuly, I worked for 2+ years as Data Scientist 
+				in the federal consulting space, and recieved my Bachelors degrees in Computer Science & Cognitive Science from the 
+				<span style="color:peru"> University of Virginia</span>. 
+				<br> <br> On the side, I run a <a href="https://monsoons.io/">poetry blog</a> and help coordinate  
+				events for <a href="https://alifseyeh.com"> Alif Se Yeh</a>, an Urdu language education platform. 
+				I also enjoy 🏕️ 🎹 & 🧗.
+			</div>
+
+			<br> <br>
+			<hr>
+
+			<div > <h1 style="font-size: 26px">Projects</h1> </div>
 			
 			<main class="list">
 				<div class="site-description"></div>
@@ -51,30 +79,69 @@
 				
 				
 				<section class="list-item">
-					<h1 class="title"><a href="/posts/post/">Post</a></h1>
-					<time>May 31, 2023</time>
+					<h1 class="title"><a href="/projects/kdclsrlm/">Curriculum Learning for Knowledge Distillation in LMs</a></h1>
+					<time>May 23, 2023</time>
 					<br><div class="description">
 	
-	yo yo yo&hellip;
+	Knowledge distillation (KD) is a powerful, well-established model compression technique that can face performance limitations when the capacity difference between student and teacher models is severely mismatched (Cho and Hariharan, 2019), or when multiple teachers cause competing distillation objectives (Du et al., 2020). To address these issues and improve performance in KD for large language modeling, I explore the implementation of two ideas: using curriculum learning during KD, where training data is sorted based on difficulty, and using Selective Reliance during KD, where a student language model selectively leverages teacher distillation loss for data samples deemed difficult by the curriculum.
 	
 </div>
-					<a class="readmore" href="/posts/post/">Read more ⟶</a>
+					<a class="readmore" href="/projects/kdclsrlm/">Read more ⟶</a>
+				</section>
+				
+				<section class="list-item">
+					<h1 class="title"><a href="/projects/nqj/">Neural Question Generation with GPT-J</a></h1>
+					<time>Apr 23, 2022</time>
+					<br><div class="description">
+	
+	Neural Question Generation (QG) systems aim to automate the process of question construction by generating novel questions given a particular context, thus reducing time and costs of question generation for educators and test developers. We propose Question Generation using GPT-J in a few-shot setting. Generating questions in this manner reduces time and resource cost required to construct datasets and fine-tune increasingly complex models like GPT-J, thereby increasing usage for educational purposes such as adaptive education. We compare our results against a GPT-J model fine-tuned on the task. 
+	
+</div>
+					<a class="readmore" href="/projects/nqj/">Read more ⟶</a>
+				</section>
+				
+				<section class="list-item">
+					<h1 class="title"><a href="/projects/kdclsr/">Selective Teacher Reliance for Knowledge Distillation</a></h1>
+					<time>Apr 21, 2022</time>
+					<br><div class="description">
+	
+	Knowledge distillation (KD) is a powerful, well established model compression technique that can face performance limitations when student models attempt to mimic large teacher models on high dimensional tasks like image classification (Cho and Hariharan, 2019). Motivated from ideas in curriculum learning, we explore the idea of selective reliance on the task of image recognition, where a student model relies more heavily on teacher guidance for data samples deemed difficult by a teacher generated curriculum. Experimental results show minimal effect of curriculum setting and selective reliance techniques on student accuracy and convergence. 
+	
+</div>
+					<a class="readmore" href="/projects/kdclsr/">Read more ⟶</a>
+				</section>
+				
+				<section class="list-item">
+					<h1 class="title"><a href="/projects/afib/">Detecting Atrial Fibrillation Burden Using 1-D CNNs</a></h1>
+					<time>Dec 10, 2021</time>
+					<br><div class="description">
+	
+	1-D CNNs have recently been used to classify various classes of Arrhythmias using ECG sequences. In this paper, a 1-D CNN is used to predict the Atrial Fibrillation (AF) burden of ECG sequences, which is a useful continuous metric that helps gauge AF severity and can be predictive for risk of near term stroke.
+	
+</div>
+					<a class="readmore" href="/projects/afib/">Read more ⟶</a>
 				</section>
 				
 				
 
 
 			</main>
+
+			<br> <br>
+
 			<footer>
-  <div style="display:flex"></div>
+  <div style="display:flex"><a class="soc" href="https://github.com/theotherkhan" rel="me" title="GitHub"><i data-feather="github"></i></a>
+    <a class="border"></a><a class="soc" href="https://www.linkedin.com/in/hk4cd/" rel="me" title="LinkedIn"><i data-feather="linkedin"></i></a>
+    <a class="border"></a></div>
   <div class="footer-info">
-    2023  <a
-      href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+    2023  © Hasan Khan |  Built with <a href="https://gohugo.io">Hugo</a>
   </div>
 </footer>
 
 
-
+<script>
+  feather.replace()
+</script>
 		</div>
 		
 	</body>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html><head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Detecting Atrial Fibrillation Burden Using 1-D CNNs - Hasan Khan</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="1-D CNNs have recently been used to classify various classes of Arrhythmias using ECG sequences. In this paper, a 1-D CNN is used to predict the Atrial Fibrillation (AF) burden of ECG sequences, which is a useful continuous metric that helps gauge AF severity and can be predictive for risk of near term stroke." />
+	<meta property="og:image" content=""/>
+	<meta property="og:title" content="Detecting Atrial Fibrillation Burden Using 1-D CNNs" />
+<meta property="og:description" content="1-D CNNs have recently been used to classify various classes of Arrhythmias using ECG sequences. In this paper, a 1-D CNN is used to predict the Atrial Fibrillation (AF) burden of ECG sequences, which is a useful continuous metric that helps gauge AF severity and can be predictive for risk of near term stroke." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://theotherkhan.github.io/projects/afib/" /><meta property="article:section" content="projects" />
+<meta property="article:published_time" content="2021-12-10T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-12-10T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Detecting Atrial Fibrillation Burden Using 1-D CNNs"/>
+<meta name="twitter:description" content="1-D CNNs have recently been used to classify various classes of Arrhythmias using ECG sequences. In this paper, a 1-D CNN is used to predict the Atrial Fibrillation (AF) burden of ECG sequences, which is a useful continuous metric that helps gauge AF severity and can be predictive for risk of near term stroke."/>
+<script src="https://theotherkhan.github.io/js/feather.min.js"></script>
+	
+	
+        <link href="https://theotherkhan.github.io/css/fonts.2c2227b81b1970a03e760aa2e6121cd01f87c88586803cbb282aa224720a765f.css" rel="stylesheet">
+	
+
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="https://theotherkhan.github.io/css/main.ac08a4c9714baa859217f92f051deb58df2938ec352b506df655005dcaf98cc0.css" />
+
+	
+	
+
+	
+	
+	
+	
+</head>
+<body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="https://theotherkhan.github.io/">Hasan Khan</a>
+	</div>
+	<nav>
+		
+		<a href="/">Home</a>
+		
+		<a href="/files/summerresume2023ai.pdf">Resume</a>
+		
+		<a href="/projects">Projects</a>
+		
+		<a href="https://github.com/theotherkhan">Git</a>
+		
+		
+	</nav>
+</header>
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<main>
+	<article>
+		<div class="title">
+			<h1 class="title">Detecting Atrial Fibrillation Burden Using 1-D CNNs</h1>
+			<div class="meta">Posted on Dec 10, 2021</div>
+		</div>
+		
+
+		<section class="body">
+			<h2 id="abstract">Abstract</h2>
+<p>1-D CNNs have recently been used to classify various classes of Arrhythmias using ECG sequences. In this paper, a 1-D CNN is used to predict the Atrial Fibrillation (AF) burden of ECG sequences, which is a useful continuous metric that helps gauge AF severity and can be predictive for risk of near term stroke. See the full paper <a href="/files/HCML_Final_Project.pdf">here</a>.</p>
+<h2 id="introduction">Introduction</h2>
+<p>Anywhere from 2.7-6.0 million Americans suffer from Atrial Fibrillation, the leading type of heart arrhythmia (Mina, 2020). Atrial Fibrillation is characterized by an irregular heartbeat; if left untreated, it can lead to blood clots, stroke and other serious heart complications. Historically, cardiologists and technicians manually scan Electrocardiogram (ECG) recordings of patients to determine the presence of AF in patients, often with the assistance of peak detection and interval analysis algorithms. However, these algorithms have a high error rate (Shah, 2007), and in recent years, a plethora of statistical models and machine learning techniques such as Convolutional Neural Networks (CNNs) (Rajpurkar, 2017) and Markov Models (Coast, 1990), among others, have been successfully applied to arrhythmia and AF detection problems, often out preforming traditional methods. These models are attractive because they can help save cardiologist time, increase accessibility to AF diagnosis, and are especially effective for continuous monitoring when paired with wearable technologies that can measure ECG signals.</p>
+<p>However, these techniques are often focused on the classification and sub typing of ECG sequences. In this project, the objective is modified to calculate the AF Burden of each sequence instead, a continuous variable defined as the proportion of an ECG sequence that displays AF characteristics. AF Burden has been shown to be associated with near term stroke risk (Lin, 2018), and depending on the duration of the ECG, can be used to help classify between variants of AF, such Paroxysmal AF (episodic AF) and Persistent AF (chronic AF).</p>
+<p>This project builds on previous AF classification techniques, modifying them slightly for the purposes of predicting AF Burden. ECG signals from the The 4th China Physiological Signal Challenge (Wang, 2021) are used as the input data for the model, from which the project is inspired.</p>
+<p>See the full paper <a href="/files/HCML_Final_Project.pdf">here</a>.</p>
+
+		</section>
+
+		<div class="post-tags">
+			
+			
+			
+		</div>
+		</article>
+</main>
+<footer>
+  <div style="display:flex"><a class="soc" href="https://github.com/theotherkhan" rel="me" title="GitHub"><i data-feather="github"></i></a>
+    <a class="border"></a><a class="soc" href="https://www.linkedin.com/in/hk4cd/" rel="me" title="LinkedIn"><i data-feather="linkedin"></i></a>
+    <a class="border"></a></div>
+  <div class="footer-info">
+    2023  © Hasan Khan |  Built with <a href="https://gohugo.io">Hugo</a>
+  </div>
+</footer>
+
+
+<script>
+  feather.replace()
+</script></div>
+    </body>
+</html>

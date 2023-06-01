@@ -2,12 +2,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Hasan Khan</title>
-    <link>https://theotherkhan.github.io/</link>
+    <link>https://theotherkhan.github.io/projects/</link>
     <description>Recent content on Hasan Khan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Hasan Khan</copyright>
-    <lastBuildDate>Tue, 23 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://theotherkhan.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 23 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://theotherkhan.github.io/projects/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Curriculum Learning for Knowledge Distillation in LMs</title>
       <link>https://theotherkhan.github.io/projects/kdclsrlm/</link>

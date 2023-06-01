@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html><head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Selective Teacher Reliance for Knowledge Distillation - Hasan Khan</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Knowledge distillation (KD) is a powerful, well established model compression technique that can face performance limitations when student models attempt to mimic large teacher models on high dimensional tasks like image classification (Cho and Hariharan, 2019). Motivated from ideas in curriculum learning, we explore the idea of selective reliance on the task of image recognition, where a student model relies more heavily on teacher guidance for data samples deemed difficult by a teacher generated curriculum. Experimental results show minimal effect of curriculum setting and selective reliance techniques on student accuracy and convergence. " />
+	<meta property="og:image" content=""/>
+	<meta property="og:title" content="Selective Teacher Reliance for Knowledge Distillation" />
+<meta property="og:description" content="Knowledge distillation (KD) is a powerful, well established model compression technique that can face performance limitations when student models attempt to mimic large teacher models on high dimensional tasks like image classification (Cho and Hariharan, 2019). Motivated from ideas in curriculum learning, we explore the idea of selective reliance on the task of image recognition, where a student model relies more heavily on teacher guidance for data samples deemed difficult by a teacher generated curriculum. Experimental results show minimal effect of curriculum setting and selective reliance techniques on student accuracy and convergence. " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://theotherkhan.github.io/projects/kdclsr/" /><meta property="article:section" content="projects" />
+<meta property="article:published_time" content="2022-04-21T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-04-21T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Selective Teacher Reliance for Knowledge Distillation"/>
+<meta name="twitter:description" content="Knowledge distillation (KD) is a powerful, well established model compression technique that can face performance limitations when student models attempt to mimic large teacher models on high dimensional tasks like image classification (Cho and Hariharan, 2019). Motivated from ideas in curriculum learning, we explore the idea of selective reliance on the task of image recognition, where a student model relies more heavily on teacher guidance for data samples deemed difficult by a teacher generated curriculum. Experimental results show minimal effect of curriculum setting and selective reliance techniques on student accuracy and convergence. "/>
+<script src="https://theotherkhan.github.io/js/feather.min.js"></script>
+	
+	
+        <link href="https://theotherkhan.github.io/css/fonts.2c2227b81b1970a03e760aa2e6121cd01f87c88586803cbb282aa224720a765f.css" rel="stylesheet">
+	
+
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="https://theotherkhan.github.io/css/main.ac08a4c9714baa859217f92f051deb58df2938ec352b506df655005dcaf98cc0.css" />
+
+	
+	
+
+	
+	
+	
+	
+</head>
+<body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="https://theotherkhan.github.io/">Hasan Khan</a>
+	</div>
+	<nav>
+		
+		<a href="/">Home</a>
+		
+		<a href="/files/summerresume2023ai.pdf">Resume</a>
+		
+		<a href="/projects">Projects</a>
+		
+		<a href="https://github.com/theotherkhan">Git</a>
+		
+		
+	</nav>
+</header>
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<main>
+	<article>
+		<div class="title">
+			<h1 class="title">Selective Teacher Reliance for Knowledge Distillation</h1>
+			<div class="meta">Posted on Apr 21, 2022</div>
+		</div>
+		
+
+		<section class="body">
+			<h2 id="abstract">Abstract</h2>
+<p>Knowledge distillation (KD) is a powerful, well established model compression technique that can face performance limitations when student models attempt to mimic large teacher models on high dimensional tasks like image classification (Cho and Hariharan, 2019). Motivated from ideas in curriculum learning, we explore the idea of selective reliance on the task of image recognition, where a student model relies more heavily on teacher guidance for data samples deemed difficult by a teacher generated curriculum. Experimental results show minimal effect of curriculum setting and selective reliance techniques on student accuracy and convergence. See the full report <a href="/files/KD_Partial_Reliance.pdf">here</a>.</p>
+<h2 id="introduction">Introduction</h2>
+<p>Knowledge Distillation (Hinton et al, 2015) is a model compression technique commonly used in applied settings where large models are difficult to store and run. KD comprises of a dual model student-teacher framework, where a small capacity student model aims to mimic the performance of a larger capacity teacher model by learning the distribution of the output labels generated from the teacher model trained on the same dataset. More specifically, the student model uses a bipartite loss function L_student that incorporates both L_kd (the KD loss measured by the KL divergence between the softmax of the student output logits P_S and the softmax of the teacher output logits P_T, scaled by the temperature parameter τ) and L_ce (the standard cross entropy training loss using the true labels y_true). The parameter λ controls the weight given to each component loss. The student loss and its component losses are defined below:</p>
+<p>$$ L_{ce} = CE(y_{true},P_S) $$
+$$ L_{kd} = \tau^2 KL(P_T,P_S) $$
+$$ L_{student} = (1 - \lambda)L_{ce} + \lambda L_{kd} $$</p>
+<p>However, KD has been shown to provide minimal to no performance gains for certain tasks such as image recognition on ImageNet  (Zagoruyko and Komodakis, 2016). Cho and Hariharan (2019) examine the reasons behind failures in this context, noting that large differences in student teacher model capacities may limit the student model&rsquo;s ability to minimize both training loss and KD loss, forcing the student to minimize the KD loss over the train loss.</p>
+<p>From this finding, we propose <em>selective reliance</em>, a technique for dynamically changing the student&rsquo;s reliance on KD loss by updating λ in L_{Student at the sample level, where λ is determined by the difficulty of the sample. Difficulty is defined in the context of Curriculum Learning (CL), a training strategy for improving model convergence speed and accuracy that involves training on easily learnable samples before difficult ones.</p>
+<p>Difficulty rankings for samples can be determined using the confidence scores of additional models, as outlined by Weinshall and Cohen (2018). In the context of knowledge distillation, we use the teacher model to be distilled as the scoring function (Haconen and Weinshall, 2018) for each datapoint in the the student&rsquo;s curriculum. We build closely on work conducted by Zhao et al (2021) where curriculum learning is also used to improve knowledge distillation on image recognition tasks, but aim to employ a distinct curriculum generation scheme from theirs, and a novel mechanism for its effect on KD loss utilization. We hypothesize that relying on the teacher is only in the student&rsquo;s best interest when the sample being evaluated is difficult, and that accuracy yielded from KD w/ CL (KD-CL) can be improved upon with selective reliance (KD-CL-SR) techniques built into KD.</p>
+<p>See the full report <a href="/files/KD_Partial_Reliance.pdf">here</a>.</p>
+
+		</section>
+
+		<div class="post-tags">
+			
+			
+			
+		</div>
+		</article>
+</main>
+<footer>
+  <div style="display:flex"><a class="soc" href="https://github.com/theotherkhan" rel="me" title="GitHub"><i data-feather="github"></i></a>
+    <a class="border"></a><a class="soc" href="https://www.linkedin.com/in/hk4cd/" rel="me" title="LinkedIn"><i data-feather="linkedin"></i></a>
+    <a class="border"></a></div>
+  <div class="footer-info">
+    2023  © Hasan Khan |  Built with <a href="https://gohugo.io">Hugo</a>
+  </div>
+</footer>
+
+
+<script>
+  feather.replace()
+</script></div>
+    </body>
+</html>
